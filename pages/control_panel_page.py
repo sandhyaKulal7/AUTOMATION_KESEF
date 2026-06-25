@@ -38,20 +38,19 @@ class ControlPanelPage(BasePage):
     def __init__(self, page: Page):
         super().__init__(page)
 
-    @allure.step("Go to Control Panel")
-    def goto(self, path: str = "/control-panel"):
-        self.page.goto(path)
+    def goto(self, path: str = "/control-panel") -> None:
+        """Go to Control Panel with proper initialization."""
+        super().goto(path)
         self.page.get_by_role("tab", name=self.TAB_LEAD_SOURCES).wait_for(
             state="visible", timeout=20_000)
-        self.page.wait_for_load_state("networkidle")
         self.page.wait_for_timeout(800)
 
     # ── Internal helpers ─────────────────────────────────────────────────────
-    def _open_tab(self, tab_name: str):
+    def _open_tab(self, tab_name: str) -> None:
         self.page.get_by_role("tab", name=tab_name).first.click()
         self.page.wait_for_timeout(1000)
 
-    def _click_add(self, add_button_name: str):
+    def _click_add(self, add_button_name: str) -> None:
         self.page.get_by_role("button", name=add_button_name).first.click()
         self.page.wait_for_timeout(800)
 
@@ -79,14 +78,14 @@ class ControlPanelPage(BasePage):
 
     # ── Add operations ───────────────────────────────────────────────────────
     @allure.step("Add Lead Source: {name}")
-    def add_lead_source(self, name: str):
+    def add_lead_source(self, name: str) -> None:
         self._open_tab(self.TAB_LEAD_SOURCES)
         self._click_add("Add Lead Source")
         self.page.get_by_label("Lead Source Name").fill(name)
         self._save_modal()
 
     @allure.step("Add Sales Rep: {name}")
-    def add_sales_rep(self, name: str, email: str, phone: str = "9990001234"):
+    def add_sales_rep(self, name: str, email: str, phone: str = "9990001234") -> None:
         self._open_tab(self.TAB_SALES_REPS)
         self._click_add("Add Sales Rep")
         self.page.locator("input[name='name']").fill(name)
@@ -95,7 +94,7 @@ class ControlPanelPage(BasePage):
         self._save_modal()
 
     @allure.step("Add Holiday: {date} ({description})")
-    def add_holiday(self, date: str, description: str):
+    def add_holiday(self, date: str, description: str) -> None:
         """`date` must be in MM/DD/YYYY format (the field's mask)."""
         self._open_tab(self.TAB_HOLIDAYS)
         self._click_add("Add Holiday")
@@ -113,7 +112,7 @@ class ControlPanelPage(BasePage):
         return [cells.nth(i).inner_text().strip() for i in range(cells.count())]
 
     @allure.step("Assert the last add succeeded")
-    def assert_add_succeeded(self):
+    def assert_add_succeeded(self) -> None:
         """
         A successful add fires a '... added successfully' snackbar and closes the
         modal. This is pagination-independent (the new row may sort onto a later
@@ -126,23 +125,23 @@ class ControlPanelPage(BasePage):
         )
 
     @allure.step("Assert item exists in current tab: {name}")
-    def assert_item_exists(self, name: str):
+    def assert_item_exists(self, name: str) -> None:
         expect(
             self.page.get_by_role("cell", name=name, exact=True).first
         ).to_be_visible(timeout=DEFAULT_TIMEOUT)
 
     @allure.step("Switch to tab: {tab_name}")
-    def switch_tab(self, tab_name: str):
+    def switch_tab(self, tab_name: str) -> None:
         """Open a Control Panel tab by name (e.g. 'SALES REPS', 'HOLIDAYS')."""
         self._open_tab(tab_name)
 
     @allure.step("Assert item in current tab: {name}")
-    def assert_item_in_current_tab(self, name: str):
+    def assert_item_in_current_tab(self, name: str) -> None:
         """Verify the item appears in the current tab's table."""
         self.assert_item_exists(name)
 
     @allure.step("Add generic item: {name}")
-    def add_item(self, name: str):
+    def add_item(self, name: str) -> None:
         """
         Generic add method for simple single-field items (Underwriter, Lead Source, 
         Brokerage, Industry, Province, Payment Processor, etc.).
@@ -162,7 +161,7 @@ class ControlPanelPage(BasePage):
         self._save_modal()
 
     @allure.step("Deactivate item: {name}")
-    def deactivate_item(self, name: str):
+    def deactivate_item(self, name: str) -> None:
         """
         Click the deactivate/toggle button for an item in the current tab.
         The action button is typically in the last column of the table row.
@@ -179,7 +178,7 @@ class ControlPanelPage(BasePage):
             self.page.wait_for_timeout(1000)
 
     @allure.step("Assert deactivation succeeded")
-    def assert_deactivation_succeeded(self):
+    def assert_deactivation_succeeded(self) -> None:
         """Verify that deactivation succeeded (check for success toast)."""
         toast = (getattr(self, "last_toast", "") or "").lower()
         # Look for a success or confirmation message
