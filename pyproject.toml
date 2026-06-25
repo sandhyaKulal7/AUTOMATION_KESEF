@@ -21,27 +21,7 @@ dependencies = [
     "pytest-retry>=0.6.2"
 ]
 
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-python_files = ["test_*.py"]
-python_classes = ["Test*"]
-python_functions = ["test_*"]
-addopts = "--alluredir=reports/allure-results --screenshot=only-on-failure --video=retain-on-failure --tracing=retain-on-failure -v --tb=short"
-
-[tool.mypy]
-python_version = "3.14"
-warn_return_any = false
-warn_unused_configs = false
-ignore_missing_imports = true
-no_implicit_optional = false
-check_untyped_defs = false
-
-[tool.isort]
-profile = "black"
-line_length = 100
-
 [tool.black]
 line-length = 100
-target-version = ['py314']
-include = '\.pyi?$'
-extend-exclude = '.venv|.pytest_cache|reports'
+target-version = ['py310']
+

@@ -34,8 +34,7 @@ screenshots/
 videos/
 traces/
 
-# IDE
-.vscode/
+# IDE (but NOT .vscode since we want project settings)
 .idea/
 *.swp
 *.swo
@@ -54,3 +53,4 @@ Thumbs.db
 
 # Allure
 allure-report/
+
