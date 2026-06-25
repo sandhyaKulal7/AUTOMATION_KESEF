@@ -1,0 +1,16 @@
+[MASTER]
+disable=
+    missing-docstring,
+    too-many-arguments,
+    too-few-public-methods,
+    protected-access,
+    duplicate-code,
+    invalid-name,
+    line-too-long
+
+[DESIGN]
+max-attributes=10
+max-args=10
+
+[SIMILARITIES]
+min-similarity-lines=10
