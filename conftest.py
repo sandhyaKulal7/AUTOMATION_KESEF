@@ -26,7 +26,11 @@ from playwright.sync_api import sync_playwright, Browser, BrowserContext, Page
 # ── Config ────────────────────────────────────────────────────────────────────
 BASE_URL        = os.environ.get("BASE_URL", "https://kesef.qa.codezyng.com/")
 BROWSER_TYPE    = os.getenv("BROWSER", "chromium")
+<<<<<<< HEAD
 SLOW_MO = int(os.getenv("SLOW_MO", "1000"))
+=======
+SLOW_MO         = int(os.getenv("SLOW_MO", "80"))
+>>>>>>> cd899ac3ad04125b6ba0a3d49432655883356fbc
 DEFAULT_TIMEOUT = int(os.getenv("TIMEOUT", "10000"))
 
 REPORTS_DIR = Path(__file__).resolve().parent / "reports" / "screenshots"
@@ -87,7 +91,11 @@ def browser():
         launch_args.append("--start-maximized")
     with sync_playwright() as p:
         b = getattr(p, BROWSER_TYPE).launch(
+<<<<<<< HEAD
            headless=True,
+=======
+            headless=_is_headless(),
+>>>>>>> cd899ac3ad04125b6ba0a3d49432655883356fbc
             slow_mo=SLOW_MO,
             args=launch_args,
         )

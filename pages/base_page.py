@@ -125,6 +125,7 @@ class BasePage:
                 attachment_type=allure.attachment_type.PNG,
             )
 
+<<<<<<< HEAD
     # ── Logout ───────────────────────────────────────────────────────────────
     def logout(self) -> None:
         """
@@ -144,6 +145,8 @@ class BasePage:
             self.page.wait_for_url("**/", timeout=15000)
             self.page.wait_for_load_state("networkidle", timeout=10000)
 
+=======
+>>>>>>> cd899ac3ad04125b6ba0a3d49432655883356fbc
     # ── Sidebar navigation ────────────────────────────────────────────────────
     # The real KESEF sidebar is a MUI List. Direct items are <a href> links;
     # "Reports" and "Control Panel" are collapsible groups (role=button) that

@@ -24,6 +24,7 @@ class TestAddDeal:
         add.goto()
         add.click_next()
         add.assert_has_validation_errors()
+<<<<<<< HEAD
 # ── TC-34 ──────────────────────────────────────────────────────────────────
     
     @allure.title("TC-34 | First Name Required")
@@ -158,6 +159,8 @@ class TestAddDeal:
             "invalid email format" in err.lower()
             for err in errors
         ), f"Expected 'Invalid Email Format' error. Found: {errors}"
+=======
+>>>>>>> cd899ac3ad04125b6ba0a3d49432655883356fbc
 
     # ── TC-25 ──────────────────────────────────────────────────────────────────
     @allure.title("TC-25 | Invalid email format is rejected")
@@ -259,6 +262,7 @@ class TestAddDeal:
         expect(
             admin_page.get_by_text(unique_name, exact=False).first
         ).to_be_visible(timeout=10000)
+<<<<<<< HEAD
 
     @allure.title("TC-39 | Business City Required")
     def test_business_city_required(self, admin_page):
@@ -547,3 +551,5 @@ class TestAddDeal:
         daily.check()
 
         expect(daily).to_be_checked()
+=======
+>>>>>>> cd899ac3ad04125b6ba0a3d49432655883356fbc

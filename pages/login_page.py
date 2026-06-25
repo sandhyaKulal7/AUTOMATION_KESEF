@@ -83,11 +83,19 @@ class LoginPage(BasePage):
     def otp_boxes(self) -> Locator:
         """
         The six individual single-character OTP input boxes.
+<<<<<<< HEAD
         The live app renders each box with aria-label='Please enter OTP character N'
         (no maxlength attribute), so we match on that aria-label prefix — more
         specific than input[type='text'], which would also match other fields.
         """
         return self.page.locator("//input[contains(@aria-label,'enter OTP character')]")
+=======
+        maxlength="1" is the standard attribute for char-by-char MUI OTP inputs;
+        this is more specific than input[type='text'] which would also match
+        any other text field that happens to be on the page.
+        """
+        return self.page.locator("//input[@maxlength='1']")
+>>>>>>> cd899ac3ad04125b6ba0a3d49432655883356fbc
 
     @property
     def verify_otp_button(self) -> Locator:
@@ -153,9 +161,13 @@ class LoginPage(BasePage):
     def click_request_new_password(self) -> None:
         """Click the Forgot-Password link and wait for /forgot-password to load."""
         self.click_when_ready(self.request_new_password_link)
+<<<<<<< HEAD
         # Wait for the Send OTP button on the forgot-password screen instead of URL navigation
         # — SPA routing may not trigger a full navigation.
         self.send_otp_button.wait_for(state="visible", timeout=20000)
+=======
+        self.page.wait_for_url("**/forgot-password", timeout=10000)
+>>>>>>> cd899ac3ad04125b6ba0a3d49432655883356fbc
 
     @allure.step("Click Sign Up link")
     def go_to_signup(self) -> None:
@@ -180,6 +192,7 @@ class LoginPage(BasePage):
         self.email_input.wait_for(state="visible", timeout=15000)
         self.clear_and_type(self.email_input, email)
         self.click_when_ready(self.send_otp_button)
+<<<<<<< HEAD
         # Save the resulting page HTML to help debug OTP rendering issues.
         try:
             self.page.wait_for_load_state("networkidle", timeout=10000)
@@ -210,6 +223,10 @@ class LoginPage(BasePage):
                 self.page.wait_for_load_state("networkidle", timeout=10000)
             except Exception:
                 pass
+=======
+        self.page.wait_for_url("**/otp**", timeout=30000)
+        self.page.wait_for_load_state("networkidle", timeout=10000)
+>>>>>>> cd899ac3ad04125b6ba0a3d49432655883356fbc
 
     @allure.step("Enter the 6-digit OTP code")
     def enter_otp(self, code: str) -> None:

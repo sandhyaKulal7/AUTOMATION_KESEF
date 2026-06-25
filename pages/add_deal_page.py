@@ -344,7 +344,11 @@ class AddDealPage(BasePage):
     def fill_lead_details_manually(
         self,
         brokerage:         str = "Appruvo Capital - Brokerage",
+<<<<<<< HEAD
         underwriter:       str = "None",
+=======
+        underwriter:       str = None,
+>>>>>>> cd899ac3ad04125b6ba0a3d49432655883356fbc
         merchant_call_by:  str = "Aaron C",
         broker_commission: str = "4",
     ):
@@ -372,7 +376,11 @@ class AddDealPage(BasePage):
     @allure.step("Manually fill Step 3: Funding Details")
     def fill_funding_details_manually(
         self,
+<<<<<<< HEAD
         financial_institution: str = "None",
+=======
+        financial_institution: str = None,
+>>>>>>> cd899ac3ad04125b6ba0a3d49432655883356fbc
         institution_number:    str = "001",
         transit_number:        str = "12376",
         account_number:        str = "56656365",
@@ -628,4 +636,8 @@ class AddDealPage(BasePage):
             month_radio.click()
             self.page.wait_for_timeout(200)
 
+<<<<<<< HEAD
         self.page.get_by_role("gridcell", name=day).first.click()
+=======
+        self.page.get_by_role("gridcell", name=day).first.click()
+>>>>>>> cd899ac3ad04125b6ba0a3d49432655883356fbc
