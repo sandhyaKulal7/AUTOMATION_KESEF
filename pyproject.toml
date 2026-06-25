@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=65.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kesef-automation"
+version = "1.0.0"
+description = "KESEF Automation Test Suite"
+requires-python = ">=3.10"
+dependencies = [
+    "playwright>=1.44.0",
+    "pytest>=8.2.2",
+    "pytest-playwright>=0.5.0",
+    "pytest-asyncio>=0.23.7",
+    "allure-pytest>=2.13.5",
+    "python-dotenv>=1.0.1",
+    "Faker>=25.2.0",
+    "requests>=2.32.3",
+    "jsonschema>=4.22.0",
+    "pytest-xdist>=3.5.0",
+    "pytest-retry>=0.6.2"
+]
+
+[tool.black]
+line-length = 100
+target-version = ['py310']
+

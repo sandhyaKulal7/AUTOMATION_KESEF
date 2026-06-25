@@ -1,0 +1,90 @@
+{
+  "baseline_deal": {
+    "funding_amount": 50000,
+    "factor_rate": 1.35,
+    "uw_fee_pct": 3.0,
+    "pad_fee": 100,
+    "holdback": 0,
+    "num_payments": 125,
+    "frequency": "Daily",
+    "expected": {
+      "cost_of_borrowing": 17500.00,
+      "total_payable": 67500.00,
+      "uw_fee_amount": 1500.00,
+      "amount_credited": 48400.00,
+      "payment_amount": 540.00
+    }
+  },
+  "zero_uw_fee": {
+    "funding_amount": 50000,
+    "factor_rate": 1.35,
+    "uw_fee_pct": 0,
+    "pad_fee": 100,
+    "holdback": 0,
+    "num_payments": 125,
+    "expected": {
+      "cost_of_borrowing": 17500.00,
+      "total_payable": 67500.00,
+      "amount_credited": 49900.00
+    }
+  },
+  "zero_pad_fee": {
+    "funding_amount": 50000,
+    "factor_rate": 1.35,
+    "uw_fee_pct": 3.0,
+    "pad_fee": 0,
+    "holdback": 0,
+    "num_payments": 125,
+    "expected": {
+      "amount_credited": 48500.00
+    }
+  },
+  "max_factor_rate": {
+    "funding_amount": 50000,
+    "factor_rate": 3.0,
+    "uw_fee_pct": 3.0,
+    "pad_fee": 100,
+    "holdback": 0,
+    "num_payments": 125,
+    "expected": {
+      "cost_of_borrowing": 100000.00,
+      "total_payable": 150000.00,
+      "amount_credited": 48400.00
+    }
+  },
+  "with_buyout": {
+    "funding_amount": 50000,
+    "factor_rate": 1.35,
+    "uw_fee_pct": 3.0,
+    "pad_fee": 100,
+    "holdback": 0,
+    "buyout_amount": 5000,
+    "num_payments": 125,
+    "expected": {
+      "cost_of_borrowing": 17500.00,
+      "total_payable": 67500.00,
+      "amount_credited": 43400.00
+    }
+  },
+  "single_payment": {
+    "funding_amount": 10000,
+    "factor_rate": 1.20,
+    "uw_fee_pct": 2.0,
+    "pad_fee": 100,
+    "holdback": 0,
+    "num_payments": 1,
+    "expected": {
+      "total_payable": 12000.00,
+      "payment_amount": 12000.00
+    }
+  },
+  "weekly_deal": {
+    "funding_amount": 25000,
+    "factor_rate": 1.45,
+    "uw_fee_pct": 3.0,
+    "pad_fee": 100,
+    "holdback": 0,
+    "num_payments": 52,
+    "frequency": "Weekly"
+  }
+}
