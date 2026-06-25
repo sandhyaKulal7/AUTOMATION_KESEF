@@ -1,0 +1,23 @@
+{
+  "new_client_template": {
+    "first_name": "Test",
+    "last_name": "Client",
+    "email": "test.client@example.com",
+    "phone": "416-555-0100",
+    "province": "Ontario",
+    "legal_name": "Test Business Inc.",
+    "industry": "Restaurant",
+    "biz_province": "Ontario",
+    "sales_rep": "Test Sales Rep",
+    "lead_source": "Test Lead Source",
+    "underwriter": "Test Underwriter"
+  },
+  "roles": {
+    "admin":       { "email_env": "ADMIN_EMAIL",       "password_env": "ADMIN_PASSWORD" },
+    "accounting":  { "email_env": "ACCOUNTING_EMAIL",  "password_env": "ACCOUNTING_PASSWORD" },
+    "sales":       { "email_env": "SALES_EMAIL",       "password_env": "SALES_PASSWORD" },
+    "viewer":      { "email_env": "VIEWER_EMAIL",      "password_env": "VIEWER_PASSWORD" },
+    "investor":    { "email_env": "INVESTOR_EMAIL",    "password_env": "INVESTOR_PASSWORD" },
+    "collections": { "email_env": "COLLECTIONS_EMAIL", "password_env": "COLLECTIONS_PASSWORD" }
+  }
+}
