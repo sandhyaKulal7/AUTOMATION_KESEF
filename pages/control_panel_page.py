@@ -39,10 +39,11 @@ class ControlPanelPage(BasePage):
         super().__init__(page)
 
     @allure.step("Go to Control Panel")
-    def goto(self):
-        self.page.goto("/control-panel")
+    def goto(self, path: str = "/control-panel"):
+        self.page.goto(path)
         self.page.get_by_role("tab", name=self.TAB_LEAD_SOURCES).wait_for(
             state="visible", timeout=20_000)
+        self.page.wait_for_load_state("networkidle")
         self.page.wait_for_timeout(800)
 
     # ── Internal helpers ─────────────────────────────────────────────────────
@@ -147,18 +148,7 @@ class ControlPanelPage(BasePage):
         Brokerage, Industry, Province, Payment Processor, etc.).
         Assumes the modal has a single text input field for the name.
         """
-        # Get the tab name from the current active tab
-        current_tab = self.page.get_by_role("tab", name=re.compile("")).first
-        
-        # Construct the add button label
-        # For "LEAD SOURCES" tab, button is "Add Lead Source"
-        # For "UNDERWRITERS" tab, button is "Add Underwriter"
-        # For "INDUSTRIES" tab, button is "Add Industry"
-        # etc.
-        tab_text = current_tab.get_attribute("data-testid") or ""
-        add_button_label = f"Add {name.replace('_', ' ')}"
-        
-        # Try the generic button locator approach
+        # Find the first "Add" button (generic approach for all tabs)
         add_buttons = self.page.get_by_role("button").filter(
             has_text=re.compile(r"^Add", re.IGNORECASE)
         )
