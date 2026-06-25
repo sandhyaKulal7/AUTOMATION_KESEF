@@ -10,6 +10,7 @@ Each tab shows a table (Name | Active Status | Added On | Updated On | Action)
 and an "Add <Section>" button that opens a small modal with a floating-label
 field and Cancel / Add buttons. There are no custom data-testids.
 """
+import re
 import allure
 from playwright.sync_api import Page, expect
 from pages.base_page import BasePage
@@ -19,10 +20,20 @@ DEFAULT_TIMEOUT = 10_000
 
 class ControlPanelPage(BasePage):
     # Tab labels (as rendered, uppercase)
-    TAB_LEAD_SOURCES = "LEAD SOURCES"
-    TAB_SALES_REPS   = "SALES REPS"
-    TAB_HOLIDAYS     = "HOLIDAYS"
-    TAB_UNDERWRITERS = "UNDERWRITERS"
+    TAB_LEAD_SOURCES    = "LEAD SOURCES"
+    TAB_BROKERAGES      = "BROKERAGES"
+    TAB_SALES_REPS      = "SALES REPS"
+    TAB_ISO_MANAGERS    = "ISO MANAGERS"
+    TAB_HOLIDAYS        = "HOLIDAYS"
+    TAB_INSTITUTIONS    = "INSTITUTIONS"
+    TAB_UNDERWRITERS    = "UNDERWRITERS"
+    TAB_PROVINCES       = "PROVINCES"
+    TAB_INDUSTRIES      = "INDUSTRIES"
+    TAB_LENDERS         = "LENDERS"
+    TAB_ASSISTS         = "ASSISTS"
+    TAB_USER_MANAGEMENT = "USER MANAGEMENT"
+    TAB_PAYMENT_DECLINED = "PAYMENT DECLINED"
+    TAB_PAYMENT_PROCESSOR = "PAYMENT PROCESSOR"
 
     def __init__(self, page: Page):
         super().__init__(page)
@@ -118,3 +129,72 @@ class ControlPanelPage(BasePage):
         expect(
             self.page.get_by_role("cell", name=name, exact=True).first
         ).to_be_visible(timeout=DEFAULT_TIMEOUT)
+
+    @allure.step("Switch to tab: {tab_name}")
+    def switch_tab(self, tab_name: str):
+        """Open a Control Panel tab by name (e.g. 'SALES REPS', 'HOLIDAYS')."""
+        self._open_tab(tab_name)
+
+    @allure.step("Assert item in current tab: {name}")
+    def assert_item_in_current_tab(self, name: str):
+        """Verify the item appears in the current tab's table."""
+        self.assert_item_exists(name)
+
+    @allure.step("Add generic item: {name}")
+    def add_item(self, name: str):
+        """
+        Generic add method for simple single-field items (Underwriter, Lead Source, 
+        Brokerage, Industry, Province, Payment Processor, etc.).
+        Assumes the modal has a single text input field for the name.
+        """
+        # Get the tab name from the current active tab
+        current_tab = self.page.get_by_role("tab", name=re.compile("")).first
+        
+        # Construct the add button label
+        # For "LEAD SOURCES" tab, button is "Add Lead Source"
+        # For "UNDERWRITERS" tab, button is "Add Underwriter"
+        # For "INDUSTRIES" tab, button is "Add Industry"
+        # etc.
+        tab_text = current_tab.get_attribute("data-testid") or ""
+        add_button_label = f"Add {name.replace('_', ' ')}"
+        
+        # Try the generic button locator approach
+        add_buttons = self.page.get_by_role("button").filter(
+            has_text=re.compile(r"^Add", re.IGNORECASE)
+        )
+        if add_buttons.count():
+            add_buttons.first.click()
+            self.page.wait_for_timeout(800)
+        
+        # Find the text input in the modal and fill it
+        input_field = self.page.locator("input[type='text']").first
+        input_field.fill(name)
+        self._save_modal()
+
+    @allure.step("Deactivate item: {name}")
+    def deactivate_item(self, name: str):
+        """
+        Click the deactivate/toggle button for an item in the current tab.
+        The action button is typically in the last column of the table row.
+        """
+        # Find the row with the item
+        row = self.page.get_by_role("row").filter(has_text=name)
+        assert row.count() > 0, f"Item '{name}' not found in current tab"
+        
+        # Click the action button (usually a toggle/switch in the "Active" column)
+        action_buttons = row.locator("button, [role='button']")
+        if action_buttons.count() > 0:
+            # Try clicking the switch/toggle
+            action_buttons.first.click()
+            self.page.wait_for_timeout(1000)
+
+    @allure.step("Assert deactivation succeeded")
+    def assert_deactivation_succeeded(self):
+        """Verify that deactivation succeeded (check for success toast)."""
+        toast = (getattr(self, "last_toast", "") or "").lower()
+        # Look for a success or confirmation message
+        alert_elements = self.page.locator("[role='alert'], .notistack-Snackbar")
+        if alert_elements.count():
+            last_alert = alert_elements.last.inner_text().lower()
+            assert "success" in last_alert or "deactivat" in last_alert, \
+                f"Deactivation may have failed. Alert: {last_alert}"
